@@ -1,8 +1,9 @@
 package main
 
 import ("fmt"
-		"strings"
 		"booking-app/helper"
+		// "strconv"
+		"time"
 	)
 
 
@@ -10,7 +11,14 @@ import ("fmt"
 	var conferenceName = "Go Conference"
 	const conferenceTickets = 50
 	var remainingTickets uint= 50
-	var bookings = []string{}
+	// var bookings = make([]map[string]string, 0) 
+	var bookings = make([]userData, 0)
+	type userData struct {
+		firstName string
+		lastName string
+		email string
+		numberOfTickets uint
+	}
 
 func main()  {
 	
@@ -28,7 +36,7 @@ func main()  {
 
 		if  isValidName && isValidEmail && isValidTicketNumber {
 			bookTicket(userTickets, firstName, lastName, email)
-
+			go sendTickets(userTickets, firstName, lastName, email)
 			firstNames := getFirstName()
 			fmt.Printf("The first names of bookings are: %v \n", firstNames)
 			
@@ -60,8 +68,7 @@ func greetUsers(){
 func getFirstName() []string {
 	firstNames := []string{}
 	for _, booking := range bookings {
-		var names = strings.Fields(booking)
-		firstNames = append(firstNames, names[0])
+		firstNames = append(firstNames, booking.firstName)
 	}
 	return firstNames
 }
@@ -85,15 +92,34 @@ func getUserInput() (string, string, string, uint){
 func bookTicket(userTickets uint, firstName string, lastName string, email string){
 	remainingTickets = remainingTickets - userTickets
 	fmt.Println("------------")
-
+	var userData = userData {
+		firstName: firstName,
+		lastName: lastName,
+		email: email,
+		numberOfTickets : userTickets,
+	}
+	// var userData = make(map[string]string)
+	// userData["firstName"] = firstName
+	// userData["lastName"] = lastName
+	// userData["email"] = email
+	// userData["numberOfTickets"] = strconv.FormatUint(uint64(userTickets), 64)
 	// bookings[0] = firstName + " " + lastName // used in array case
-	bookings = append(bookings, firstName + " " + lastName)
+	bookings = append(bookings, userData)
 	// fmt.Printf("The whole slice: %v \n", bookings)
 	// fmt.Printf("The first value: %v \n", bookings[0])
 	// fmt.Printf("Slice type: %T\n", bookings)
 	// fmt.Printf("Slice length: %v\n", len(bookings))
-
+	fmt.Printf("List of bookings is %v \n", bookings)
 	fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a confirmation email at %v \n", firstName, lastName, userTickets, email)
 	fmt.Printf("%v tickets remaining for %v \n", remainingTickets, conferenceName)
+
+}
+
+func sendTickets(userTickets uint, firstName string, lastName string, email string){
+	time.Sleep(10*time.Second)
+	var ticket = fmt.Sprintf("%v tickets for %v %v", userTickets, firstName, lastName)
+	fmt.Println("######################")
+	fmt.Printf("Sending tickets:\n %v\n to email address %v \n", ticket, email)
+	fmt.Println("######################")
 
 }
