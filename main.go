@@ -10,10 +10,8 @@ func main()  {
 	var remainingTickets uint= 50
 	fmt.Printf("conferenceName is %T, conferenceTickets is %T, and remainingTickets is %T \n", conferenceName, conferenceTickets, remainingTickets)
 
-	fmt.Printf("Welcome to %v booking application\n", conferenceName)
-	fmt.Printf("We have total of %v tickets and %v are still available\n", conferenceTickets, remainingTickets)
-	fmt.Println("Get your tickets here to attend")
-
+	
+	greetUsers(conferenceName, conferenceTickets, remainingTickets)
 	// var bookings [50]string // definition for array
 	// var bookings []string // definition for slice
 	bookings := []string{}
@@ -74,4 +72,10 @@ func main()  {
 		
 	}
 	
+}
+
+func greetUsers(confName string, conferenceTickets int, remainingTickets uint){
+	fmt.Printf("Welcome to %v booking application\n", confName)
+	fmt.Printf("We have total of %v tickets and %v are still available\n", conferenceTickets, remainingTickets)
+	fmt.Println("Get your tickets here to attend")
 }
