@@ -1,7 +1,9 @@
 package main
 
 import ("fmt"
-		"strings")
+		"strings"
+		"booking-app/helper"
+	)
 
 
 	// var conferenceName = "Go Conference"
@@ -22,7 +24,7 @@ func main()  {
 
 	for {
 		firstName, lastName, email, userTickets := getUserInput()
-		isValidName, isValidEmail, isValidTicketNumber := validUserInput(firstName, lastName, email, userTickets)
+		isValidName, isValidEmail, isValidTicketNumber := helper.ValidUserInput(firstName, lastName, email, userTickets, remainingTickets)
 
 		if  isValidName && isValidEmail && isValidTicketNumber {
 			bookTicket(userTickets, firstName, lastName, email)
@@ -63,12 +65,7 @@ func getFirstName() []string {
 	}
 	return firstNames
 }
-func validUserInput(firstName string, lastName string, email string, userTickets uint) (bool, bool, bool){
-	isValidName := len(firstName) >= 2 && len(lastName) >= 2
-	isValidEmail := strings.Contains(email, "@")
-	isValidTicketNumber := userTickets > 0 && userTickets <= remainingTickets
-	return isValidName, isValidEmail, isValidTicketNumber
-}
+
 func getUserInput() (string, string, string, uint){
 	var firstName string
 	var lastName string
